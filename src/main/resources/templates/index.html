@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Coursera Scraper</title>
+    <link rel="stylesheet" th:href="@{index.css}">
+</head>
+<body>
+<div class="page-name">Coursera Scraper</div>
+<div class="form">
+    <div class="header">
+        Пошукова форма
+    </div>
+    <form method="post" action="/">
+        <input class="input-name" type="text" name="text" placeholder="Назва курсу" th:value="${text}">
+        <div class="parameters">
+            <div class="parameter language">
+                <p>Підтримка мов:</p>
+                <div class="checkbox">
+                    <input type="checkbox" name="language" value="english"
+                           th:checked="${languages != null and languages.contains('english')}">
+                    <label>Англійська</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" name="language" value="spanish"
+                           th:checked="${languages != null and languages.contains('spanish')}">
+                    <label>Іспанська</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" name="language" value="french"
+                           th:checked="${languages != null and languages.contains('french')}">
+                    <label>Французька</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" name="language" value="german"
+                           th:checked="${languages != null and languages.contains('german')}">
+                    <label>Німецька</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" name="language" value="ukranian"
+                           th:checked="${languages != null and languages.contains('ukranian')}">
+                    <label>Українська</label>
+                </div>
+            </div>
+            <div class="parameter duration">
+                <p>Термін навчання:</p>
+                <div class="checkbox">
+                    <input type="checkbox" name="duration" value="1-3 Months"
+                           th:checked="${durations != null and durations.contains('1-3 Months')}">
+                    <label>1-3 місяці</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" name="duration" value="3-6 Months"
+                           th:checked="${durations != null and durations.contains('3-6 Months')}">
+                    <label>3-6 місяців</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" name="duration" value="6-12 Months"
+                           th:checked="${durations != null and durations.contains('6-12 Months')}">
+                    <label>6-12 місяців</label>
+                </div>
+            </div>
+        </div>
+        <input class="submit" type="submit" value="Пошук">
+    </form>
+</div>
+<div class="block" th:if="${courses != null}">
+    <div class="header">
+        Результат пошуку
+    </div>
+    <div class="download-file">
+        <form method="post" action="/export">
+            <input type="text" name="text" th:value="${text}" hidden>
+            <input type="checkbox" name="language" value="english"
+                   th:checked="${languages != null and languages.contains('english')}" hidden>
+            <input type="checkbox" name="language" value="spanish"
+                   th:checked="${languages != null and languages.contains('spanish')}" hidden>
+            <input type="checkbox" name="language" value="french"
+                   th:checked="${languages != null and languages.contains('french')}" hidden>
+            <input type="checkbox" name="language" value="german"
+                   th:checked="${languages != null and languages.contains('german')}" hidden>
+            <input type="checkbox" name="language" value="ukranian"
+                   th:checked="${languages != null and languages.contains('ukranian')}" hidden>
+            <input type="checkbox" name="duration" value="1-3 Months"
+                   th:checked="${durations != null and durations.contains('1-3 Months')}" hidden>
+            <input type="checkbox" name="duration" value="3-6 Months"
+                   th:checked="${durations != null and durations.contains('3-6 Months')}" hidden>
+            <input type="checkbox" name="duration" value="6-12 Months"
+                   th:checked="${durations != null and durations.contains('6-12 Months')}" hidden>
+            <input class="download" type="submit" value="Скачати файл">
+        </form>
+    </div>
+    <div class="result-list">
+        <div class="course" th:each="course : ${courses}">
+            <div class="cover">
+                <img th:src="${course.cover}">
+            </div>
+            <div class="text">
+                <div class="name" th:text="${course.name}"></div>
+                <div class="author" th:text="${course.author}">IBM</div>
+                <div class="scope" th:text="${course.score}">4.6</div>
+                <div class="additional" th:text="${course.additional}">Intermediate · Specialization · 3 - 6 Months
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
